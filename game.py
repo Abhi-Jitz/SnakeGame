@@ -1,13 +1,18 @@
 import pygame
 import random
 
-pygame.init()
+pygame.init()# init game
 
+# color
 white = (255,255,255)
 red = (255,0,0)
 black = (0,0,0)
+
+# screen
 screen_width = 900
 screen_height = 600
+
+# setting display
 game_window = pygame.display.set_mode((screen_width,screen_height))
 
 pygame.display.set_caption("Game")
@@ -37,8 +42,9 @@ def game_loop():
     food_y = random.randint(60, screen_height -20)
     score = 0
     init_velocity = 4
-    snake_size = 30
-    fps = 60   # fps = frames per second
+    snake_size = 25
+    food_size = 10
+    fps = 60   # fps 
     while not exit_game:
         if game_over:
             game_window.fill(white)
@@ -86,7 +92,8 @@ def game_loop():
 
             game_window.fill(white)
             text_screen("Score: " + str(score * 10), red, 5, 5)
-            pygame.draw.rect(game_window, red, [food_x, food_y, snake_size, snake_size])
+            # Food size and position
+            pygame.draw.rect(game_window, red, [food_x, food_y, food_size, food_size])
             pygame.draw.line(game_window, red, (0,40), (900,40),5)
 
             head = []
@@ -97,9 +104,11 @@ def game_loop():
             if len(snk_list)>snk_length:
                 del snk_list[0]
 
+            # game over in head touching snake
             if head in snk_list[:-1]:
                 game_over = True
-
+            
+            # game over in head touchiing border
             if snake_x<0 or snake_x>screen_width-20 or snake_y<50 or snake_y>screen_height-20:
                 game_over = True
             plot_snake(game_window, black, snk_list, snake_size)
